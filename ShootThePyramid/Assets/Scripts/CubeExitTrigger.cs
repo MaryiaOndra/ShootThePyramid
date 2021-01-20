@@ -4,7 +4,12 @@ public class CubeExitTrigger : MonoBehaviour
 {
     public bool IsCubeExitTrigger { get; private set; }
 
-    private void OnTriggerExit(Collider other)
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    IsCubeExitTrigger = true;
+    //}
+
+    private void OnTriggerEnter(Collider other)
     {
         IsCubeExitTrigger = true;
     }

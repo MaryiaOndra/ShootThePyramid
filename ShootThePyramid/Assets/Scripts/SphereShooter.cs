@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 public class SphereShooter : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class SphereShooter : MonoBehaviour
 
     void Start()
     {
-        PrepareSphere();
+        PrepareSphere();        
     }
 
     void Update()
