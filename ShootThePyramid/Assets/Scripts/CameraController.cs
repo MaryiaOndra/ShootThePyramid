@@ -2,21 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KeyboardRotator : MonoBehaviour
+public class CameraController : MonoBehaviour
 {
-    public float sensitivity = 10f;
-    public float maxYAngle = 80f;
-    private Vector2 currentRotation;
-
-    [SerializeField] private GameObject spherePrefab;
-
-    private void Start()
-    {
-        float offset = 0.01f;
-        GameObject.Instantiate(spherePrefab, transform.forward * offset, transform.rotation, transform);
-    }
+    float sensitivity = 10f;
+    float maxYAngle = 80f;
+    float power = 50f;
+    Vector2 currentRotation;
 
     void Update()
+    {
+        RotateCamera();
+    }
+
+    void MoveCamera() 
+    {
+    
+    }
+
+    void RotateCamera() 
     {
         currentRotation.x += Input.GetAxis("Mouse X") * sensitivity;
         currentRotation.y -= Input.GetAxis("Mouse Y") * sensitivity;
@@ -25,9 +28,6 @@ public class KeyboardRotator : MonoBehaviour
         Camera.main.transform.rotation = Quaternion.Euler(currentRotation.y, currentRotation.x, 0);
         if (Input.GetMouseButtonDown(0))
             Cursor.lockState = CursorLockMode.Locked;
-
         transform.eulerAngles = new Vector3(currentRotation.y, currentRotation.x, 0.0f);
-
-
     }
 }
