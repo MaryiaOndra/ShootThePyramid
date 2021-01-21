@@ -5,7 +5,7 @@ public class CubeExitTrigger : MonoBehaviour
     public bool IsCubeExitTrigger { get; private set; }
     LevelPyramid levelPyramid;
     int touchCountInt;
-    float destroyDelay = 5f;
+
 
     void Start()
     {

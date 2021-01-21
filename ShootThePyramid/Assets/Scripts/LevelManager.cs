@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
@@ -13,7 +11,7 @@ public class LevelManager : MonoBehaviour
 
     int randomLvlInt;
     int randomPointInt;
-    float destroyDelay = 2f;
+    float destroyDelay = 0.5f;
 
     public bool IsAllCubesDropped { get; set; }
 

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
 
 public class SphereShooter : MonoBehaviour
 {
@@ -7,10 +6,9 @@ public class SphereShooter : MonoBehaviour
     [SerializeField] Transform spherePointTr;
 
     float power = 50f;
+    float destroyDelay = 50f;
     Rigidbody sphereRigidbody;
-
-    GameObject[] spherePool;
-    int sphereAmount = 20;
+    GameObject activeSphere;
 
     void Start()
     {
@@ -20,35 +18,14 @@ public class SphereShooter : MonoBehaviour
     void Update()
     {
         ShootSphere();
+        DestroyOutOfHight();
     }
+
     void PrepareSphere()
     {
-        sphereRigidbody = Instantiate(spherePrefab, spherePointTr).GetComponent<Rigidbody>();
-        sphereRigidbody.GetComponent<Collider>().isTrigger = true;
-        sphereRigidbody.isKinematic = true;
-    }
-
-    void PrepareSphereFromPool()
-    {
-        foreach (var sphere in spherePool)
-        {
-            if (!sphere.activeSelf)
-            {
-                sphere.SetActive(true);
-                sphereRigidbody = sphere.GetComponent<Rigidbody>();
-                ChangeSphereState(true);
-            }
-        }
-    
-    }
-
-    void CreateSpherePool() 
-    {
-        for (int i = 0; i < sphereAmount; i++)
-        {
-            spherePool[i] = Instantiate(spherePrefab,spherePointTr);
-            spherePool[i].SetActive(false);
-        }    
+        activeSphere = Instantiate(spherePrefab, spherePointTr);
+        sphereRigidbody = activeSphere.GetComponent<Rigidbody>();
+        ChangeSphereState(true);
     }
 
     void ShootSphere()
@@ -65,5 +42,10 @@ public class SphereShooter : MonoBehaviour
     {
         sphereRigidbody.isKinematic = state;
         sphereRigidbody.GetComponent<Collider>().isTrigger = state;
+    }
+
+    void DestroyOutOfHight()
+    {
+        Destroy(activeSphere, destroyDelay);
     }
 }

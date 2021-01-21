@@ -1,22 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
     float sensitivity = 10f;
     float maxYAngle = 80f;
-    float power = 50f;
     Vector2 currentRotation;
 
     void Update()
     {
         RotateCamera();
-    }
-
-    void MoveCamera() 
-    {
-    
     }
 
     void RotateCamera() 
