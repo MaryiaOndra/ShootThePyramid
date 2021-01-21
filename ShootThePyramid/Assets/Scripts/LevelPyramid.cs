@@ -1,38 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LevelPyramid : MonoBehaviour
 {
     CubeExitTrigger[] cubePrefabs;
+    LevelManager levelManager;
     int cubePrefabInt;
-    int triggeredCubesInt;
+
+    public int CountCubesInt { get; set; }
 
     void Start()
     {
+        levelManager = GetComponentInParent<LevelManager>();
         cubePrefabs = GetComponentsInChildren<CubeExitTrigger>();
         cubePrefabInt = cubePrefabs.Length;
     }
 
-    private void Update()
+    public void CheckDroppedCubes()
     {
-        CheckAllCubes();
-
-        if (cubePrefabInt == triggeredCubesInt)
+        if (cubePrefabInt == CountCubesInt)
         {
-            Debug.Log("CHANGE THE PLATFORM!");
-        }
-    }
-
-    void CheckAllCubes() 
-    {      
-        foreach (var cube in cubePrefabs)
-        {
-            if (cube.IsCubeExitTrigger)
-            {
-                triggeredCubesInt++;
-                Debug.Log("ONE CUBE IS OUT");
-            }
+            levelManager.IsAllCubesDropped = true;
         }
     }
 }

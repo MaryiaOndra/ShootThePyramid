@@ -3,14 +3,23 @@
 public class CubeExitTrigger : MonoBehaviour
 {
     public bool IsCubeExitTrigger { get; private set; }
+    LevelPyramid levelPyramid;
+    int touchCountInt;
+    float destroyDelay = 5f;
 
-    //private void OnTriggerExit(Collider other)
-    //{
-    //    IsCubeExitTrigger = true;
-    //}
-
-    private void OnTriggerEnter(Collider other)
+    void Start()
     {
-        IsCubeExitTrigger = true;
+        levelPyramid = GetComponentInParent<LevelPyramid>();
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (touchCountInt < 1)
+        {
+            IsCubeExitTrigger = true;
+            touchCountInt++;
+            levelPyramid.CountCubesInt++;
+            levelPyramid.CheckDroppedCubes();
+        }
     }
 }

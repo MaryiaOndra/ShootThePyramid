@@ -8,60 +8,50 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject[] levelsPrefabs;
     [SerializeField] private GameObject platform;
 
+    GameObject activePlatform;
+    GameObject activeLvl;
+
     int randomLvlInt;
-    int cubeCountInt;
-    CubeExitTrigger[] cubePrefabs;
-    int cubePrefabInt;
+    int randomPointInt;
+    float destroyDelay = 2f;
+
+    public bool IsAllCubesDropped { get; set; }
 
     void Start()
     {
+        Randomize();
         GenerateNewLevel();
     }
 
     void Update()
     {
-       // CheckIsLevelEmpty();       
+        if (IsAllCubesDropped)
+        {            
+            IsAllCubesDropped = false;
 
-        //if (cubePrefabInt == cubeCountInt)
-        //{
-        //    DestroyLevel();
-        //    GenerateNewLevel();
-        //}
+            Randomize();
+            DestroyLevel();
+            GenerateNewLevel();
+        }
     }
 
     void GenerateNewLevel() 
     {
-        int randomPoint = Random.Range(0, levelPoints.Length);
-        Transform pointTransform = levelPoints[randomPoint].transform;
+        Transform pointTransform = levelPoints[randomPointInt].transform;
 
+        activeLvl = GameObject.Instantiate(levelsPrefabs[randomLvlInt], pointTransform);
+        activePlatform = GameObject.Instantiate(platform, pointTransform);
+    }
+
+    void Randomize() 
+    {
         randomLvlInt = Random.Range(0, levelsPrefabs.Length);
-        GameObject.Instantiate(levelsPrefabs[randomLvlInt], pointTransform );
-        GameObject.Instantiate(platform, pointTransform);
-
-        //cubePrefabs = levelsPrefabs[randomLvlInt].GetComponentsInChildren<CubeExitTrigger>();
-        //cubePrefabInt = cubePrefabs.Length;
+        randomPointInt = Random.Range(0, levelPoints.Length);
     }
 
     void DestroyLevel() 
     {
-        GameObject.Destroy(levelsPrefabs[randomLvlInt]);
-        GameObject.Destroy(platform);
-    }
-
-    //void CheckIsLevelEmpty() 
-    //{
-    //    foreach (var cube in cubePrefabs)
-    //    {
-    //        if (cube.IsCubeExitTrigger)
-    //        {
-    //            cubeCountInt++;
-    //            Debug.Log("ONE CUBE IS OUT");
-    //        }
-    //    }
-    //}
-
-    void TurnOffLevel() 
-    {
-    
+        GameObject.Destroy(activePlatform, destroyDelay);
+        GameObject.Destroy(activeLvl);
     }
 }
