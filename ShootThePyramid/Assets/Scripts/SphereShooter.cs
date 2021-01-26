@@ -1,51 +1,57 @@
 ﻿using UnityEngine;
 
-public class SphereShooter : MonoBehaviour
+namespace ShootThePyramid.Scripts
 {
-    [SerializeField] GameObject spherePrefab;
-    [SerializeField] Transform spherePointTr;
-
-    float power = 50f;
-    float destroyDelay = 50f;
-    Rigidbody sphereRigidbody;
-    GameObject activeSphere;
-
-    void Start()
+    public class SphereShooter : MonoBehaviour
     {
-        PrepareSphere();        
-    }
+        [SerializeField] GameObject spherePrefab;
+        [SerializeField] Transform spherePointTr;
 
-    void Update()
-    {
-        ShootSphere();
-        DestroyOutOfHight();
-    }
+        float power = 50f;
+        float destroyDelay = 5;
+        Rigidbody sphereRigidbody;
+        GameObject activeSphere;
 
-    void PrepareSphere()
-    {
-        activeSphere = Instantiate(spherePrefab, spherePointTr);
-        sphereRigidbody = activeSphere.GetComponent<Rigidbody>();
-        ChangeSphereState(true);
-    }
-
-    void ShootSphere()
-    {
-        if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Space))
+        void Start()
         {
-            ChangeSphereState(false);
-            sphereRigidbody.AddForce(transform.forward * power, ForceMode.Impulse);
             PrepareSphere();
         }
-    }
 
-    void ChangeSphereState(bool state) 
-    {
-        sphereRigidbody.isKinematic = state;
-        sphereRigidbody.GetComponent<Collider>().isTrigger = state;
-    }
+        void Update()
+        {
+            FollowPoint();
+            ShootSphere();
+        }
 
-    void DestroyOutOfHight()
-    {
-        Destroy(activeSphere, destroyDelay);
+        void PrepareSphere()
+        {
+            activeSphere = Instantiate(spherePrefab);
+            activeSphere.GetComponent<SphereBhv>().LifeTime = destroyDelay;
+            sphereRigidbody = activeSphere.GetComponent<Rigidbody>();
+            ChangeSphereState(true);
+        }
+
+        void FollowPoint()
+        {
+            activeSphere.transform.position = spherePointTr.position;
+            activeSphere.transform.rotation = spherePointTr.rotation;
+        }
+
+        void ShootSphere()
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Space))
+            {
+                ChangeSphereState(false);
+                activeSphere.GetComponent<SphereBhv>().Shoot();
+                sphereRigidbody.AddForce(transform.forward * power, ForceMode.Impulse);
+                PrepareSphere();
+            }
+        }
+
+        void ChangeSphereState(bool state)
+        {
+            sphereRigidbody.isKinematic = state;
+            sphereRigidbody.GetComponent<Collider>().isTrigger = state;
+        }
     }
 }

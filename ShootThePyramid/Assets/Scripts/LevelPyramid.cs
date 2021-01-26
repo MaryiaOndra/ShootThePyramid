@@ -1,25 +1,28 @@
 ﻿using UnityEngine;
 
-public class LevelPyramid : MonoBehaviour
+namespace ShootThePyramid.Scripts
 {
-    CubeExitTrigger[] cubePrefabs;
-    LevelManager levelManager;
-    int cubePrefabInt;
-
-    public int CountCubesInt { get; set; }
-
-    void Start()
+    public class LevelPyramid : MonoBehaviour
     {
-        levelManager = GetComponentInParent<LevelManager>();
-        cubePrefabs = GetComponentsInChildren<CubeExitTrigger>();
-        cubePrefabInt = cubePrefabs.Length;
-    }
+        CubeExitTrigger[] cubePrefabs;
+        LevelManager levelManager;
+        int cubePrefabInt;
 
-    public void CheckDroppedCubes()
-    {
-        if (cubePrefabInt == CountCubesInt)
+        public int CountCubesInt { get; set; }
+
+        void Start()
         {
-            levelManager.IsAllCubesDropped = true;
+            levelManager = GetComponentInParent<LevelManager>();
+            cubePrefabs = GetComponentsInChildren<CubeExitTrigger>();
+            cubePrefabInt = cubePrefabs.Length;
+        }
+
+        public void CheckDroppedCubes()
+        {
+            if (cubePrefabInt == CountCubesInt)
+            {
+                levelManager.IsAllCubesDropped = true;
+            }
         }
     }
 }

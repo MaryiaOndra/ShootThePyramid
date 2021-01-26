@@ -1,55 +1,58 @@
 ﻿using UnityEngine;
 
-public class LevelManager : MonoBehaviour
+namespace ShootThePyramid.Scripts
 {
-    [SerializeField] private GameObject[] levelPoints;
-    [SerializeField] private GameObject[] levelsPrefabs;
-    [SerializeField] private GameObject platform;
-
-    GameObject activePlatform;
-    GameObject activeLvl;
-
-    int randomLvlInt;
-    int randomPointInt;
-    float destroyDelay = 0.5f;
-
-    public bool IsAllCubesDropped { get; set; }
-
-    void Start()
+    public class LevelManager : MonoBehaviour
     {
-        Randomize();
-        GenerateNewLevel();
-    }
+        [SerializeField] private GameObject[] levelPoints;
+        [SerializeField] private GameObject[] levelsPrefabs;
+        [SerializeField] private GameObject platform;
 
-    void Update()
-    {
-        if (IsAllCubesDropped)
-        {            
-            IsAllCubesDropped = false;
+        GameObject activePlatform;
+        GameObject activeLvl;
 
+        int randomLvlInt;
+        int randomPointInt;
+        float destroyDelay = 0.5f;
+
+        public bool IsAllCubesDropped { get; set; }
+
+        void Start()
+        {
             Randomize();
-            DestroyLevel();
             GenerateNewLevel();
         }
-    }
 
-    void GenerateNewLevel() 
-    {
-        Transform pointTransform = levelPoints[randomPointInt].transform;
+        void Update()
+        {
+            if (IsAllCubesDropped)
+            {
+                IsAllCubesDropped = false;
 
-        activeLvl = GameObject.Instantiate(levelsPrefabs[randomLvlInt], pointTransform);
-        activePlatform = GameObject.Instantiate(platform, pointTransform);
-    }
+                Randomize();
+                DestroyLevel();
+                GenerateNewLevel();
+            }
+        }
 
-    void Randomize() 
-    {
-        randomLvlInt = Random.Range(0, levelsPrefabs.Length);
-        randomPointInt = Random.Range(0, levelPoints.Length);
-    }
+        void GenerateNewLevel()
+        {
+            Transform pointTransform = levelPoints[randomPointInt].transform;
 
-    void DestroyLevel() 
-    {
-        GameObject.Destroy(activePlatform, destroyDelay);
-        GameObject.Destroy(activeLvl);
+            activeLvl = GameObject.Instantiate(levelsPrefabs[randomLvlInt], pointTransform);
+            activePlatform = GameObject.Instantiate(platform, pointTransform);
+        }
+
+        void Randomize()
+        {
+            randomLvlInt = Random.Range(0, levelsPrefabs.Length);
+            randomPointInt = Random.Range(0, levelPoints.Length);
+        }
+
+        void DestroyLevel()
+        {
+            GameObject.Destroy(activePlatform, destroyDelay);
+            GameObject.Destroy(activeLvl);
+        }
     }
 }
