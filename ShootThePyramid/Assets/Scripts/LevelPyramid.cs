@@ -10,7 +10,7 @@ namespace ShootThePyramid.Scripts
 
         public int CountCubesInt { get; set; }
 
-        void Start()
+        void Awake()
         {
             levelManager = GetComponentInParent<LevelManager>();
             cubePrefabs = GetComponentsInChildren<CubeExitTrigger>();
